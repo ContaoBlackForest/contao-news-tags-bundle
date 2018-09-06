@@ -21,6 +21,7 @@ namespace BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation;
 
 use Contao\DataContainer;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * This class handle the tag options.
@@ -53,17 +54,17 @@ class TagOptions
      */
     public function handle(DataContainer $container)
     {
-        if (!$container->activeRecord->archive || !$container->activeRecord->news) {
-            return [];
-        }
-
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select('nt.id, nt.title')
             ->from('tl_news_tags', 'nt')
-            ->where($queryBuilder->expr()->like('nt.archives', ':archives'))
-            ->setParameter(':archives', '%"' . $container->activeRecord->archive . '"%')
             ->orderBy('nt.title');
+
+        $this->addFilterForEditAction($queryBuilder, $container);
+
+        if ($container->activeRecord->id && (!$container->activeRecord->archive || !$container->activeRecord->news)) {
+            return [];
+        }
 
         $statement = $queryBuilder->execute();
         if (!$statement->rowCount()) {
@@ -76,5 +77,24 @@ class TagOptions
         }
 
         return $options;
+    }
+
+    /**
+     * Add the filter if edit the model.
+     *
+     * @param QueryBuilder  $queryBuilder The query builder.
+     * @param DataContainer $container    The data container.
+     *
+     * @return void
+     */
+    private function addFilterForEditAction(QueryBuilder $queryBuilder, DataContainer $container)
+    {
+        if (!$container->activeRecord->id && !$container->activeRecord->archive && !$container->activeRecord->news) {
+            return;
+        }
+
+        $queryBuilder
+            ->where($queryBuilder->expr()->like('nt.archives', ':archives'))
+            ->setParameter(':archives', '%"' . $container->activeRecord->archive . '"%');
     }
 }

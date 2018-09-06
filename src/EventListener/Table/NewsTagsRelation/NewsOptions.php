@@ -21,6 +21,7 @@ namespace BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation;
 
 use Contao\DataContainer;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * This class handle the news options.
@@ -53,17 +54,17 @@ class NewsOptions
      */
     public function handle(DataContainer $container)
     {
-        if (!$container->activeRecord->archive) {
-            return [];
-        }
-
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select('n.id, n.headline')
             ->from('tl_news', 'n')
-            ->where($queryBuilder->expr()->eq('n.pid', ':pid'))
-            ->setParameter(':pid', $container->activeRecord->archive)
             ->orderBy('n.headline');
+
+        $this->addFilterForEditAction($queryBuilder, $container);
+
+        if ($container->activeRecord->id && !$container->activeRecord->archive) {
+            return [];
+        }
 
         $statement = $queryBuilder->execute();
         if (!$statement->rowCount()) {
@@ -76,5 +77,24 @@ class NewsOptions
         }
 
         return $options;
+    }
+
+    /**
+     * Add the filter if edit the model.
+     *
+     * @param QueryBuilder  $queryBuilder The query builder.
+     * @param DataContainer $container    The data container.
+     *
+     * @return void
+     */
+    private function addFilterForEditAction(QueryBuilder $queryBuilder, DataContainer $container)
+    {
+        if (!$container->activeRecord->id && !$container->activeRecord->archive) {
+            return;
+        }
+
+        $queryBuilder
+            ->where($queryBuilder->expr()->eq('n.pid', ':pid'))
+            ->setParameter(':pid', $container->activeRecord->archive);
     }
 }

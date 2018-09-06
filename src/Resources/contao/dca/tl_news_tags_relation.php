@@ -36,14 +36,20 @@ $GLOBALS['TL_DCA']['tl_news_tags_relation'] = [
 
     'list' => [
         'sorting' => [
-            'mode'                => 1,
-            'fields'              => [''],
+            'mode'                => 2,
+            'fields'              => ['tag', 'archive', 'news'],
             'flag'                => 1,
-            'panelLayout'         => 'filter;search,limit'
+            'panelLayout'         => 'sort;filter;search,limit'
         ],
         'label' => [
-            'fields'              => ['archive.title', 'news', 'tag'],
-            'format'              => '%s'
+            'fields'              => [
+                'archive:tl_news_archive.title',
+                'news:tl_news.headline',
+                'tag:tl_news_tags.title'
+            ],
+            'format'              => $GLOBALS['TL_LANG']['tl_news_tags_relation']['archive'][0] . ': %s<br>' .
+                                     $GLOBALS['TL_LANG']['tl_news_tags_relation']['news'][0] . ': %s<br>' .
+                                     $GLOBALS['TL_LANG']['tl_news_tags_relation']['tag'][0] . ': %s<br>'
         ],
         'global_operations' => [
             'all' => [
@@ -96,6 +102,8 @@ $GLOBALS['TL_DCA']['tl_news_tags_relation'] = [
         'archive' => [
             'label'            => &$GLOBALS['TL_LANG']['tl_news_tags_relation']['archive'],
             'exclude'          => true,
+            'sorting'          => true,
+            'filter'           => true,
             'search'           => true,
             'inputType'        => 'select',
             'options_callback' => ['cb.table_news_tags_relation.archives_options', 'handle'],
@@ -111,6 +119,8 @@ $GLOBALS['TL_DCA']['tl_news_tags_relation'] = [
         'news' => [
             'label'            => &$GLOBALS['TL_LANG']['tl_news_tags_relation']['news'],
             'exclude'          => true,
+            'sorting'          => true,
+            'filter'           => true,
             'search'           => true,
             'inputType'        => 'select',
             'options_callback' => ['cb.table_news_tags_relation.news_options', 'handle'],
@@ -126,6 +136,8 @@ $GLOBALS['TL_DCA']['tl_news_tags_relation'] = [
         'tag' => [
             'label'            => &$GLOBALS['TL_LANG']['tl_news_tags_relation']['tag'],
             'exclude'          => true,
+            'sorting'          => true,
+            'filter'           => true,
             'search'           => true,
             'inputType'        => 'select',
             'options_callback' => ['cb.table_news_tags_relation.tag_options', 'handle'],
