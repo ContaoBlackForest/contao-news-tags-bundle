@@ -71,8 +71,14 @@ class TagOptions
             return [];
         }
 
+        $match = $this->matchNewsRelation($container);
+
         $options = [];
         foreach ($statement->fetchAll(\PDO::FETCH_OBJ) as $tag) {
+            if (\in_array($tag->id, $match)) {
+                continue;
+            }
+
             $options[$tag->id] = $tag->title;
         }
 
@@ -96,5 +102,38 @@ class TagOptions
         $queryBuilder
             ->where($queryBuilder->expr()->like('nt.archives', ':archives'))
             ->setParameter(':archives', '%"' . $container->activeRecord->archive . '"%');
+    }
+
+    /**
+     * Match news relation.
+     *
+     * @param DataContainer $container The data container.
+     *
+     * @return array
+     */
+    private function matchNewsRelation(DataContainer $container)
+    {
+        if (!$container->activeRecord->id && !$container->activeRecord->archive && !$container->activeRecord->news) {
+            return [];
+        }
+
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select('r.*')
+            ->from('tl_news_tags_relation', 'r')
+            ->where($queryBuilder->expr()->eq('r.news', ':newsId'))
+            ->setParameter(':newsId', $container->activeRecord->news);
+
+        $statement = $queryBuilder->execute();
+        if (!$statement->rowCount()) {
+            return [];
+        }
+
+        $match = [];
+        foreach ($statement->fetchAll(\PDO::FETCH_OBJ) as $relation) {
+            $match[] = $relation->tag;
+        }
+
+        return $match;
     }
 }
