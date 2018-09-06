@@ -10,6 +10,8 @@ services:
             - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
             - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
             - "@=service('contao.framework').getAdapter('Contao\\\\Image')"
+            - "@security.csrf.token_manager"
+            - "%contao.csrf_token_name%"
 
     cb.table_news_tags.archives_options:
         class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ArchivesOptions

@@ -29,6 +29,8 @@ use Contao\StringUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * Trait for table tl_news_tags and tl_news_tags_relation.
@@ -78,15 +80,24 @@ trait NewsTagsTrait
     private $image;
 
     /**
+     * The security token.
+     *
+     * @var CsrfToken
+     */
+    private $token;
+
+    /**
      * The constructor.
      *
-     * @param ContaoFrameworkInterface $framework  The framework.
-     * @param RequestStack             $request    The request.
-     * @param SessionInterface         $session    The session.
-     * @param Adapter                  $stringUtil The string util.
-     * @param Adapter                  $input      The input.
-     * @param Adapter                  $controller The contao controller.
-     * @param Adapter                  $image      The contao image controller.
+     * @param ContaoFrameworkInterface $framework    The framework.
+     * @param RequestStack             $request      The request.
+     * @param SessionInterface         $session      The session.
+     * @param Adapter                  $stringUtil   The string util.
+     * @param Adapter                  $input        The input.
+     * @param Adapter                  $controller   The contao controller.
+     * @param Adapter                  $image        The contao image controller.
+     * @param CsrfTokenManager         $tokenManager The token manager.
+     * @param string                   $tokenName    The token name.
      */
     public function __construct(
         ContaoFrameworkInterface $framework,
@@ -95,7 +106,9 @@ trait NewsTagsTrait
         Adapter $stringUtil,
         Adapter $input,
         Adapter $controller,
-        Adapter $image
+        Adapter $image,
+        CsrfTokenManager $tokenManager,
+        $tokenName
     ) {
         $this->stringUtil = $stringUtil;
         $this->input      = $input;
@@ -108,6 +121,7 @@ trait NewsTagsTrait
             return;
         }
 
+        $this->token   = $tokenManager->getToken($tokenName);
         $this->user    = $framework->createInstance(BackendUser::class);
         $this->session = $session->getBag('contao_backend');
     }
