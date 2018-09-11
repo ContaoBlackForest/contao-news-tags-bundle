@@ -48,3 +48,10 @@ services:
         arguments:
             - "@database_connection"
             - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+
+    cb.table_news_tags.format_model_label:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\FormatModelLabel
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
