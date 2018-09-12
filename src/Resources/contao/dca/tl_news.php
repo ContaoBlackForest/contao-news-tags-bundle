@@ -18,6 +18,14 @@
  */
 
 /*
+ * Add callbacks.
+ */
+
+$GLOBALS['TL_DCA']['tl_news']['config']['ondelete_callback'][] = ['cb.table_news.delete', 'handle'];
+$GLOBALS['TL_DCA']['tl_news']['config']['oncut_callback'][]    = ['cb.table_news.move', 'handle'];
+
+
+/*
  * Add model operation button.
  */
 

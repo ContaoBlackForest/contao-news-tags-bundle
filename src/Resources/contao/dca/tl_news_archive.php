@@ -18,6 +18,12 @@
  */
 
 /*
+ * Add callbacks.
+ */
+
+$GLOBALS['TL_DCA']['tl_news_archive']['config']['ondelete_callback'][] = ['cb.table_news_archive.delete', 'handle'];
+
+/*
  * Add global operation button.
  */
 

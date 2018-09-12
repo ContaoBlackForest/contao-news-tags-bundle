@@ -11,3 +11,16 @@ services:
             - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
             - "@security.csrf.token_manager"
             - "%contao.csrf_token_name%"
+
+    cb.table_news.delete:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\News\Delete
+        public: true
+        arguments:
+            - "@database_connection"
+
+    cb.table_news.move:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\News\Move
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
