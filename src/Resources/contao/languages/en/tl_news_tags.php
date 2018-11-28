@@ -21,10 +21,13 @@
  * Fields.
  */
 
-$GLOBALS['TL_LANG']['tl_news_tags']['title']    = ['Title', 'Please enter the tag title'];
-$GLOBALS['TL_LANG']['tl_news_tags']['alias']    = ['Alias', 'The alias for this tag. The alias is generated automatically if you do not enter anything.'];
-$GLOBALS['TL_LANG']['tl_news_tags']['archives'] = ['News archives', 'Here you can determine in which news archives this tag should be available.'];
-$GLOBALS['TL_LANG']['tl_news_tags']['note']     = ['Note', 'Here can you enter a note.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['title']           = ['Title', 'Please enter the tag title'];
+$GLOBALS['TL_LANG']['tl_news_tags']['alias']           = ['Alias', 'The alias for this tag. The alias is generated automatically if you do not enter anything.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['archives']        = ['News archives', 'Here you can determine in which news archives this tag should be available.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['tagLink']         = ['Activate link list', 'Here you can activate the tag list as a link list for the detail page.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['tagLinkFallback'] = ['Fallback page', 'Here you can select the fallback page. If the list page of the messages was not found automatically, then the fallback page is used.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['note']            = ['Note', 'Here can you enter a note.'];
+
 
 /*
  * Legends.

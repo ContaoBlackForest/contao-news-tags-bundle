@@ -102,7 +102,12 @@ $GLOBALS['TL_DCA']['tl_news_tags'] = [
     ],
 
     'palettes' => [
-        'default' => '{title_legend},title,alias;{archives_legend},archives;{note_legend:hide},note'
+        '__selector__' => ['tagLink'],
+        'default'      => '{title_legend},title,alias;{archives_legend},archives,tagLink;{note_legend:hide},note'
+    ],
+
+    'subpalettes' => [
+        'tagLink'      => 'tagLinkFallback'
     ],
 
     'fields' => [
@@ -139,6 +144,22 @@ $GLOBALS['TL_DCA']['tl_news_tags'] = [
             'options_callback' => ['cb.table_news_tags.archives_options', 'handle'],
             'eval'             => ['multiple' => true, 'mandatory' => true],
             'sql'              => 'blob NULL'
+        ],
+        'tagLink' => [
+            'label'            => &$GLOBALS['TL_LANG']['tl_news_tags']['tagLink'],
+            'exclude'          => true,
+            'inputType'        => 'checkbox',
+            'eval'             => ['submitOnChange' => true, 'tl_class' => 'w50'],
+            'sql'              => "char(1) NOT NULL default ''"
+        ],
+        'tagLinkFallback' => [
+            'label'            => &$GLOBALS['TL_LANG']['tl_news_tags']['tagLinkFallback'],
+            'exclude'          => true,
+            'inputType'        => 'pageTree',
+            'foreignKey'       => 'tl_page.title',
+            'eval'             => ['mandatory' => true, 'fieldType' => 'radio', 'tl_class' => 'w50 clr'],
+            'sql'              => "int(10) unsigned NOT NULL default '0'",
+            'relation'         => ['type' => 'hasOne', 'load' => 'lazy']
         ],
         'note' => [
             'label'            => &$GLOBALS['TL_LANG']['tl_news_tags']['note'],

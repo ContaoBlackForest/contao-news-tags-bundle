@@ -21,10 +21,12 @@
  * Fields.
  */
 
-$GLOBALS['TL_LANG']['tl_news_tags']['title']    = ['Titel', 'Hier können Sie den Titel eingeben.'];
-$GLOBALS['TL_LANG']['tl_news_tags']['alias']    = ['Alias', 'Der Alias für die Auszeichnung. Dieser Alias wird automatisch generiert wenn das Feld leer ist.'];
-$GLOBALS['TL_LANG']['tl_news_tags']['archives'] = ['Nachrichten Archive', 'Hier können Sie die Nachrichten Archive bestimmen, in dem diese Auszeichnung verfügbar sein soll.'];
-$GLOBALS['TL_LANG']['tl_news_tags']['note']     = ['Notiz', 'Hier können Sie eine Notiz eingeben.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['title']           = ['Titel', 'Hier können Sie den Titel eingeben.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['alias']           = ['Alias', 'Der Alias für die Auszeichnung. Dieser Alias wird automatisch generiert wenn das Feld leer ist.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['archives']        = ['Nachrichten Archive', 'Hier können Sie die Nachrichten Archive bestimmen, in dem diese Auszeichnung verfügbar sein soll.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['tagLink']         = ['Linkliste aktivieren', 'Hier können Sie die Auszeichnungen-Liste als Linkliste für die Detailseite aktivieren.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['tagLinkFallback'] = ['Fallback Seite', 'Hier können Sie die Fallback-Seite auswählen. Wenn die Listenseite der Nachrichten nicht automatisch gefunden wurde, wird die Fallback-Seite verwendet.'];
+$GLOBALS['TL_LANG']['tl_news_tags']['note']            = ['Notiz', 'Hier können Sie eine Notiz eingeben.'];
 
 /*
  * Legends.

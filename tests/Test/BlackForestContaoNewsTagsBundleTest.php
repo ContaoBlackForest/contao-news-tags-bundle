@@ -62,26 +62,36 @@ class BlackForestContaoNewsTagsBundleTest extends TestCase
         $this->assertInstanceOf(FileResource::class, $container->getResources()[2]);
         $this->assertInstanceOf(FileResource::class, $container->getResources()[3]);
         $this->assertInstanceOf(FileResource::class, $container->getResources()[4]);
-        $this->assertInstanceOf(FileResource::class, $container->getResources()[4]);
+        $this->assertInstanceOf(FileResource::class, $container->getResources()[5]);
+        $this->assertInstanceOf(FileResource::class, $container->getResources()[6]);
+        $this->assertInstanceOf(FileResource::class, $container->getResources()[7]);
         $this->assertSame(
-            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news.yml',
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/module/news-detail.yml',
             $container->getResources()[1]->getResource()
         );
         $this->assertSame(
-            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-archive.yml',
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/module/news-list.yml',
             $container->getResources()[2]->getResource()
         );
         $this->assertSame(
-            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-tags.yml',
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news.yml',
             $container->getResources()[3]->getResource()
         );
         $this->assertSame(
-            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-tags-relation.yml',
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-archive.yml',
             $container->getResources()[4]->getResource()
         );
         $this->assertSame(
-            \dirname(\dirname(__DIR__)) . '/src/Resources/config/services.yml',
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-tags.yml',
             $container->getResources()[5]->getResource()
+        );
+        $this->assertSame(
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-tags-relation.yml',
+            $container->getResources()[6]->getResource()
+        );
+        $this->assertSame(
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/services.yml',
+            $container->getResources()[7]->getResource()
         );
     }
 }

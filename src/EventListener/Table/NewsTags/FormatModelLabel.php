@@ -68,7 +68,7 @@ class FormatModelLabel
         }
 
         $label  = '<p>' . $GLOBALS['TL_LANG']['MOD']['tl_news_tags'] . ': ';
-        $label .= '<br>&nbsp;' . $row['title'] . '</p>';
+        $label .= '<br>&nbsp;&nbsp;' . $row['title'] . '</p>';
 
         $archiveNames = $this->fetchNewsArchiveNames($row['archives']);
 
@@ -86,6 +86,12 @@ class FormatModelLabel
             $label .= '</ul>';
         }
         $label .= '</p>';
+
+        if ($row['tagLink']) {
+            $page   = $this->fetchPageById($row['tagLinkFallback']);
+            $label .= '<p>' . $GLOBALS['TL_LANG']['tl_news_tags']['tagLinkFallback'][0] . ': ';
+            $label .= '<br>&nbsp;&nbsp;' . $page->title . '</p>';
+        }
 
         return $label;
     }
@@ -121,5 +127,29 @@ class FormatModelLabel
         }
 
         return $archiveNames;
+    }
+
+    /**
+     * Fetch the page by id.
+     *
+     * @param string $pageId The page id.
+     *
+     * @return mixed|null
+     */
+    private function fetchPageById($pageId)
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select('p.*')
+            ->from('tl_page', 'p')
+            ->where($queryBuilder->expr()->eq('p.id', ':pageId'))
+            ->setParameter(':pageId', $pageId);
+
+        $statement = $queryBuilder->execute();
+        if (!$statement->rowCount()) {
+            return null;
+        }
+
+        return $statement->fetch(\PDO::FETCH_OBJ);
     }
 }

@@ -1,0 +1,21 @@
+services:
+    cb.module_news_list.add_filter_menu:
+        class: BlackForest\Contao\News\Tags\EventListener\Module\ListView\AddFilterMenu
+        public: true
+        arguments:
+            - "@request_stack"
+            - "@database_connection"
+            - "@contao.session.contao_frontend"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+            - "%contao.url_suffix%"
+
+    cb.module_news_list.item_fetcher:
+        class: BlackForest\Contao\News\Tags\EventListener\Module\ListView\ItemFetcher
+        public: true
+        arguments:
+            - "@request_stack"
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\NewsModel')"
+            - "%contao.url_suffix%"

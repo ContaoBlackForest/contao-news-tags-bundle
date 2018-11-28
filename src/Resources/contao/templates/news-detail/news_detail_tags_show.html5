@@ -1,0 +1,16 @@
+<!-- indexer::stop -->
+<div class="news_list_tags_show">
+    <h3><?= $GLOBALS['TL_LANG']['FMD']['newsTagsShow']['show'] ?></h3>
+    <ul>
+        <?php foreach ($this->tags as $tag): ?>
+            <li class="news_tags_item">
+                <?php if($tag->tagLink): ?>
+                <a class="news_tags_item_link" href="<?= $this->backPathInfo ?: $tag->tagLinkFallbackPath ?><?= '/filterTag/' . $tag->alias .  $this->urlSuffix ?>" title="<?= $tag->title ?>"><?= $tag->title ?></a>
+                <?php else: ?>
+                <strong><?= $tag->title ?></strong>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<!-- indexer::continue -->

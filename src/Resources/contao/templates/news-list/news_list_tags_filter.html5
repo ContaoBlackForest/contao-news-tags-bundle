@@ -1,0 +1,17 @@
+<!-- indexer::stop -->
+<div class="news_list_tags_filter">
+    <h3><?= $GLOBALS['TL_LANG']['FMD']['newsTagsFilter']['filter'] ?></h3>
+    <ul>
+        <?php if ($this->active): ?>
+            <li class="news_tags_filter_reset">
+                <a href="<?= $this->pathInfo ?><?= $this->urlSuffix?>" title="<?= $GLOBALS['TL_LANG']['FMD']['newsTagsFilter']['clearFilter'] ?>"><?= $GLOBALS['TL_LANG']['FMD']['newsTagsFilter']['clearFilter'] ?></a>
+            </li>
+        <?php endif; ?>
+        <?php foreach ($this->tags as $tag): ?>
+            <li class="news_tags_item<?= ($this->active === $tag->alias) ? ' active' : '' ?>">
+                <a class="news_tags_item_link<?= ($this->active === $tag->alias) ? ' active' : '' ?>" href="<?= $this->pathInfo ?><?= ($this->active === $tag->alias) ? $this->urlSuffix : '/filterTag/' . $tag->alias .  $this->urlSuffix ?>" title="<?= $tag->title ?>"><?= $tag->title ?></a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<!-- indexer::continue -->

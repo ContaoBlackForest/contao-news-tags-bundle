@@ -27,6 +27,15 @@ $GLOBALS['BE_MOD']['content']['news']['tables'] = array_merge(
 );
 
 /*
+ * Hooks.
+ */
+
+$GLOBALS['TL_HOOKS']['parseTemplate'][]      = ['cb.module_news_list.add_filter_menu', 'handle'];
+$GLOBALS['TL_HOOKS']['parseArticles'][]      = ['cb.module_news_detail.add_filter_menu', 'handle'];
+$GLOBALS['TL_HOOKS']['newsListCountItems'][] = ['cb.module_news_list.item_fetcher', 'countItems'];
+$GLOBALS['TL_HOOKS']['newsListFetchItems'][] = ['cb.module_news_list.item_fetcher', 'fetchItems'];
+
+/*
  * Add permissions.
  */
 

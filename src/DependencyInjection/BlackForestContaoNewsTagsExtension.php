@@ -35,6 +35,8 @@ class BlackForestContaoNewsTagsExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('module/news-detail.yml');
+        $loader->load('module/news-list.yml');
         $loader->load('table/news.yml');
         $loader->load('table/news-archive.yml');
         $loader->load('table/news-tags.yml');
