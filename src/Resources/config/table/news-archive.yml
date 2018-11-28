@@ -1,0 +1,10 @@
+services:
+    cb.table_news_archive.permission:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsArchive\Permission
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@request_stack"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Image')"
