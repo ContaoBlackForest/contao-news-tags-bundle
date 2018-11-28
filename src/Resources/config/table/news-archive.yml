@@ -7,4 +7,3 @@ services:
             - "@request_stack"
             - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
             - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
-            - "@=service('contao.framework').getAdapter('Contao\\\\Image')"

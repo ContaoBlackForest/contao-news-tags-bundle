@@ -61,6 +61,7 @@ class BlackForestContaoNewsTagsBundleTest extends TestCase
         $this->assertInstanceOf(FileResource::class, $container->getResources()[1]);
         $this->assertInstanceOf(FileResource::class, $container->getResources()[2]);
         $this->assertInstanceOf(FileResource::class, $container->getResources()[3]);
+        $this->assertInstanceOf(FileResource::class, $container->getResources()[4]);
         $this->assertSame(
             \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-archive.yml',
             $container->getResources()[1]->getResource()
@@ -70,8 +71,12 @@ class BlackForestContaoNewsTagsBundleTest extends TestCase
             $container->getResources()[2]->getResource()
         );
         $this->assertSame(
-            \dirname(\dirname(__DIR__)) . '/src/Resources/config/services.yml',
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/table/news-tags-relation.yml',
             $container->getResources()[3]->getResource()
+        );
+        $this->assertSame(
+            \dirname(\dirname(__DIR__)) . '/src/Resources/config/services.yml',
+            $container->getResources()[4]->getResource()
         );
     }
 }

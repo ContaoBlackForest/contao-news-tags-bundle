@@ -17,21 +17,21 @@
  * @filesource
  */
 
-namespace BlackForest\Contao\News\Tags\EventListener\Table\NewsTags;
+namespace BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation;
 
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\Input;
 use BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsTrait;
 
 /**
- * This class provide the permission handling for table news tags.
+ * This class provide the permission handling for table news tags relation.
  */
 class Permission
 {
     use NewsTagsTrait;
 
     /**
-     * Check permission to add tags.
+     * Check permission to add relation for tags.
      *
      * @return void
      *
@@ -39,11 +39,11 @@ class Permission
      */
     protected function checkPermissionToAdd()
     {
-        if ($this->user->hasAccess('create', 'newstagsp')) {
+        if ($this->user->hasAccess('create', 'newstagsrelationp')) {
             return;
         }
 
-        $GLOBALS['TL_DCA']['tl_news_tags']['config']['closed'] = true;
+        $GLOBALS['TL_DCA']['tl_news_tags_relation']['config']['closed'] = true;
     }
 
     /**
@@ -61,11 +61,11 @@ class Permission
             return;
         }
 
-        if ((!$this->user->hasAccess('delete', 'newstagsp')
+        if ((!$this->user->hasAccess('delete', 'newstagsrelationp')
              && 'delete' === $this->input->get('act'))
             || !\in_array(
                 $this->input->get('id'),
-                $GLOBALS['TL_DCA']['tl_news_tags']['list']['sorting']['root']
+                $GLOBALS['TL_DCA']['tl_news_tags_relation']['list']['sorting']['root']
             )
         ) {
             throw new AccessDeniedException(
@@ -92,12 +92,12 @@ class Permission
         }
 
         $session = $this->session->all();
-        if (!$this->user->hasAccess('delete', 'newstagsp') && $this->input->get('act') == 'deleteAll') {
+        if (!$this->user->hasAccess('delete', 'newstagsrelationp') && $this->input->get('act') == 'deleteAll') {
             $session['CURRENT']['IDS'] = array();
         } else {
             $session['CURRENT']['IDS'] = \array_intersect(
                 (array) $session['CURRENT']['IDS'],
-                $GLOBALS['TL_DCA']['tl_news_tags']['list']['sorting']['root']
+                $GLOBALS['TL_DCA']['tl_news_tags_relation']['list']['sorting']['root']
             );
         }
 
@@ -113,7 +113,7 @@ class Permission
      */
     protected function prepareDefaultPermission()
     {
-        if (\strlen($this->input->get('act'))) {
+        if (\strlen(Input::get('act'))) {
             throw new AccessDeniedException(
                 \sprintf(
                     'Not enough permissions to %s news feeds.',
@@ -137,7 +137,7 @@ class Permission
      */
     public function handleButtonCanEdit(array $row, $href, $label, $title, $icon, $attributes)
     {
-        return $this->user->canEditFieldsOf('tl_news_tags')
+        return $this->user->canEditFieldsOf('tl_news_tags_relation')
             ?
             $this->renderModelButton($row, $href, $label, $title, $icon, $attributes)
             :
@@ -158,54 +158,11 @@ class Permission
      */
     public function handleButtonCanDelete(array $row, $href, $label, $title, $icon, $attributes)
     {
-        return $this->user->hasAccess('delete', 'newstagsp')
+        return $this->user->hasAccess('delete', 'newstagsrelationp')
             ?
             $this->renderModelButton($row, $href, $label, $title, $icon, $attributes)
             :
             $this->image->getHtml(\preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
-    }
-
-    /**
-     * Handle the permission of the global tags command.
-     *
-     * @param string $href       The href.
-     * @param string $label      The label.
-     * @param string $title      The title.
-     * @param string $class      The icon.
-     * @param string $attributes The attributes.
-     *
-     * @return string
-     */
-    public function handleGlobalTagsCommand($href, $label, $title, $class, $attributes)
-    {
-        return ($this->user->isAdmin || $this->user->hasAccess('create', 'newstagsp'))
-            ?
-            $this->renderGlobalButton($href, $label, $title, $class, $attributes)
-            :
-            '';
-    }
-
-    /**
-     * Render the global command button.
-     *
-     * @param string $href       The href.
-     * @param string $label      The label.
-     * @param string $title      The title.
-     * @param string $class      The class.
-     * @param string $attributes The attributes.
-     *
-     * @return string
-     */
-    private function renderGlobalButton($href, $label, $title, $class, $attributes)
-    {
-        return \sprintf(
-            '<a href="%s" class="%s" title="%s"%s>%s</a>',
-            $this->controller->addToUrl($href),
-            $class,
-            $this->stringUtil->specialchars($title),
-            $attributes,
-            $label
-        );
     }
 
     /**

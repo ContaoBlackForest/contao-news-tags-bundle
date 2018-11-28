@@ -46,6 +46,17 @@ $GLOBALS['TL_DCA']['tl_news_tags'] = [
             'format'              => '%s'
         ],
         'global_operations' => [
+            'relations'     => [
+                'label'           => &$GLOBALS['TL_LANG']['tl_news_tags']['relations'],
+                'href'            => 'table=tl_news_tags_relation',
+                'class'           => 'header_icon',
+                'attributes'      => sprintf(
+                    '%s %s',
+                    'style="background-image: url(' . \Contao\Image::getPath('sizes.svg') . ');"',
+                    'onclick="Backend.getScrollOffset()"'
+                ),
+                'button_callback' => ['cb.table_news_tags.permission', 'handleGlobalTagsCommand']
+            ],
             'all' => [
                 'label'           => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href'            => 'act=select',

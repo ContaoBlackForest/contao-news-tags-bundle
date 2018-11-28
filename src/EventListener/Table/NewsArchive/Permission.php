@@ -23,7 +23,6 @@ use Contao\BackendUser;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\Image;
 use Contao\StringUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -54,31 +53,21 @@ class Permission
     private $controller;
 
     /**
-     * The contao image controller.
-     *
-     * @var Image
-     */
-    private $image;
-
-    /**
      * The constructor.
      *
      * @param ContaoFrameworkInterface $framework  The framework.
      * @param RequestStack             $request    The request.
      * @param Adapter                  $stringUtil The string util.
      * @param Adapter                  $controller The contao controller.
-     * @param Adapter                  $image      The contao image controller.
      */
     public function __construct(
         ContaoFrameworkInterface $framework,
         RequestStack $request,
         Adapter $stringUtil,
-        Adapter $controller,
-        Adapter $image
+        Adapter $controller
     ) {
         $this->stringUtil = $stringUtil;
         $this->controller = $controller;
-        $this->image      = $image;
 
         if (!$request->getCurrentRequest()
             || !('contao_backend' === $request->getCurrentRequest()->get('_route'))
@@ -104,13 +93,13 @@ class Permission
     {
         return ($this->user->isAdmin || $this->user->hasAccess('create', 'newstagsp'))
             ?
-            $this->renderButton($href, $label, $title, $class, $attributes)
+            $this->renderGlobalButton($href, $label, $title, $class, $attributes)
             :
             '';
     }
 
     /**
-     * Render the model command button.
+     * Render the global command button.
      *
      * @param string $href       The href.
      * @param string $label      The label.
@@ -120,7 +109,7 @@ class Permission
      *
      * @return string
      */
-    private function renderButton($href, $label, $title, $class, $attributes)
+    private function renderGlobalButton($href, $label, $title, $class, $attributes)
     {
         return \sprintf(
             '<a href="%s" class="%s" title="%s"%s>%s</a>',

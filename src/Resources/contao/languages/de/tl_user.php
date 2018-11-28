@@ -21,4 +21,5 @@
  * Permissions.
  */
 
-$GLOBALS['TL_LANG']['tl_user']['newstagsp'] = ['Auszeichnungsrechte', 'Hier können Sie die Auszeichnungsrechte festlegen.'];
+$GLOBALS['TL_LANG']['tl_user']['newstagsp']         = ['Auszeichnungsrechte', 'Hier können Sie die Auszeichnungsrechte festlegen.'];
+$GLOBALS['TL_LANG']['tl_user']['newstagsrelationp'] = ['Verbindungsrechte', 'Hier können Sie die Nachrichtenverbindungsrechte festlegen.'];

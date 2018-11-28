@@ -23,7 +23,7 @@
 
 $GLOBALS['BE_MOD']['content']['news']['tables'] = array_merge(
     $GLOBALS['BE_MOD']['content']['news']['tables'],
-    ['tl_news_tags']
+    ['tl_news_tags', 'tl_news_tags_relation']
 );
 
 /*
@@ -31,3 +31,4 @@ $GLOBALS['BE_MOD']['content']['news']['tables'] = array_merge(
  */
 
 $GLOBALS['TL_PERMISSIONS'][] = 'newstagsp';
+$GLOBALS['TL_PERMISSIONS'][] = 'newstagsrelationp';

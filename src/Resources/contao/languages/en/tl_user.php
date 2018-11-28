@@ -21,4 +21,5 @@
  * Permissions.
  */
 
-$GLOBALS['TL_LANG']['tl_user']['newstagsp'] = ['Tag permissions', 'Here you can define the news tags permissions.'];
+$GLOBALS['TL_LANG']['tl_user']['newstagsp']         = ['Tag permissions', 'Here you can define the news tags permissions.'];
+$GLOBALS['TL_LANG']['tl_user']['newstagsrelationp'] = ['Tag relation permissions', 'Here you can define the news tags relations permissions.'];

@@ -17,4 +17,5 @@
  * @filesource
  */
 
-$GLOBALS['TL_LANG']['MOD']['tl_news_tags'] = 'Auszeichnungen';
+$GLOBALS['TL_LANG']['MOD']['tl_news_tags']          = 'Auszeichnungen';
+$GLOBALS['TL_LANG']['MOD']['tl_news_tags_relation'] = 'Verbindungen';
