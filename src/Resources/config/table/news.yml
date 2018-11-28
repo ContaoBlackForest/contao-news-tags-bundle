@@ -1,0 +1,13 @@
+services:
+    cb.table_news.select_tags_model_command:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\News\SelectTagsModelCommand
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@request_stack"
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Image')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+            - "@security.csrf.token_manager"
+            - "%contao.csrf_token_name%"

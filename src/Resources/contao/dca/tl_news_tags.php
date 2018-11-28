@@ -19,11 +19,19 @@
 
 $GLOBALS['TL_DCA']['tl_news_tags'] = [
 
+    'select' => [
+        'buttons_callback' => [
+            ['cb.table_news_tags.modal_select_button', 'handle']
+        ]
+    ],
+
     'config' => [
         'dataContainer'               => 'Table',
         'enableVersioning'            => true,
         'onload_callback'             => [
-            ['cb.table_news_tags.permission', 'handlePermission']
+            ['cb.table_news_tags.permission', 'handlePermission'],
+            ['cb.table_news_tags.apply_relations_news_modal_view', 'handle'],
+            ['cb.table_news_tags.manipulate_news_modal_view', 'handle']
         ],
         'sql' => [
             'keys' => [
@@ -36,9 +44,11 @@ $GLOBALS['TL_DCA']['tl_news_tags'] = [
 
     'list' => [
         'sorting' => [
+            // Can i remove the back button with an other mode? This idea is for the popup.
             'mode'                => 1,
             'fields'              => ['title'],
             'flag'                => 1,
+            // For popup remove this.
             'panelLayout'         => 'filter;search,limit'
         ],
         'label' => [

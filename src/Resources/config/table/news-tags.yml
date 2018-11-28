@@ -25,3 +25,24 @@ services:
         arguments:
             - "@database_connection"
             - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+
+    cb.table_news_tags.modal_select_button:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ModalSelectButton
+        public: true
+        arguments:
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+
+    cb.table_news_tags.manipulate_news_modal_view:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ManipulateNewsModalView
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+
+    cb.table_news_tags.apply_relations_news_modal_view:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ApplyRelationsNewsModalView
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
