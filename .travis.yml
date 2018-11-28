@@ -13,14 +13,14 @@ env:
 
 matrix:
   exclude:
-    - php: 7.0
-      env: CONTAO_VERSION=contao/core-bundle ~4.6.0
-    - php: 5.6
-      env: CONTAO_VERSION=contao/core-bundle ~4.6.0
-    - php: 7.0
-      env: CONTAO_VERSION=contao/core-bundle ~4.5.0
-    - php: 5.6
-      env: CONTAO_VERSION=contao/core-bundle ~4.5.0
+    - php: "7.0"
+      env: CONTAO_VERSION=~4.6.0
+    - php: "5.6"
+      env: CONTAO_VERSION=~4.6.0
+    - php: "7.0"
+      env: CONTAO_VERSION=~4.5.0
+    - php: "5.6"
+      env: CONTAO_VERSION=~4.5.0
 
 before_install:
   - echo "memory_limit = -1" > travis.php.ini && phpenv config-add travis.php.ini
