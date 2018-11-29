@@ -1,0 +1,58 @@
+services:
+    cb.table_news_tags.permission:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\Permission
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@request_stack"
+            - "@session"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Image')"
+            - "@security.csrf.token_manager"
+            - "%contao.csrf_token_name%"
+
+    cb.table_news_tags.archives_options:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ArchivesOptions
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@request_stack"
+            - "@=service('contao.framework').getAdapter('Contao\\\\NewsArchiveModel')"
+
+    cb.table_news_tags.alias_generator:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\AliasGenerator
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+
+    cb.table_news_tags.modal_select_button:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ModalSelectButton
+        public: true
+        arguments:
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+
+    cb.table_news_tags.manipulate_news_modal_view:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ManipulateNewsModalView
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+
+    cb.table_news_tags.apply_relations_news_modal_view:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\ApplyRelationsNewsModalView
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+
+    cb.table_news_tags.format_model_label:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTags\FormatModelLabel
+        public: true
+        arguments:
+            - "@database_connection"
+            - "@translator"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"

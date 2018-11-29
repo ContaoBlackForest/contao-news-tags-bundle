@@ -1,0 +1,7 @@
+services:
+    cb.table_module.pre_filter_options:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\Module\PreFilterOptions
+        public: true
+        arguments:
+        - "@database_connection"
+        - "@translator"
