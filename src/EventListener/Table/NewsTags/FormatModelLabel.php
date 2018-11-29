@@ -22,6 +22,7 @@ namespace BlackForest\Contao\News\Tags\EventListener\Table\NewsTags;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\Input;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * This handle the formatting of the model label.
@@ -43,15 +44,24 @@ class FormatModelLabel
     private $connection;
 
     /**
+     * The translator.
+     *
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * The constructor.
      *
-     * @param Connection $connection The database connection.
-     * @param Adapter    $input      The input.
+     * @param Connection          $connection The database connection.
+     * @param TranslatorInterface $translator The translator.
+     * @param Adapter             $input      The input.
      */
-    public function __construct(Connection $connection, Adapter $input)
+    public function __construct(Connection $connection, TranslatorInterface $translator, Adapter $input)
     {
         $this->connection = $connection;
         $this->input      = $input;
+        $this->translator = $translator;
     }
 
     /**
@@ -67,14 +77,15 @@ class FormatModelLabel
             return $row['title'];
         }
 
-        $label  = '<p>' . $GLOBALS['TL_LANG']['MOD']['tl_news_tags'] . ': ';
+        $label  = '<p>' . $this->trans('MOD.tl_news_tags') . ': ';
         $label .= '<br>&nbsp;&nbsp;' . $row['title'] . '</p>';
 
         $archiveNames = $this->fetchNewsArchiveNames($row['archives']);
 
-        $label .= '<p style="margin-bottom: 0;">' . $GLOBALS['TL_LANG']['tl_news_tags']['archives'][0] . ': ';
+
+        $label .= '<p style="margin-bottom: 0;">' . $this->trans('tl_news_tags.archives.0', 'tl_news_tags') . ': ';
         if (!\count($archiveNames)) {
-            $label .= '<br>&nbsp;' . $GLOBALS['TL_LANG']['MSC']['noResult'];
+            $label .= '<br>&nbsp;' . $this->trans('MSC.noResult');
         }
         if (\count($archiveNames)) {
             $label .= '<ul>';
@@ -89,7 +100,7 @@ class FormatModelLabel
 
         if ($row['tagLink']) {
             $page   = $this->fetchPageById($row['tagLinkFallback']);
-            $label .= '<p>' . $GLOBALS['TL_LANG']['tl_news_tags']['tagLinkFallback'][0] . ': ';
+            $label .= '<p>' . $this->trans('tl_news_tags.tagLinkFallback.0', 'tl_news_tags') . ': ';
             $label .= '<br>&nbsp;&nbsp;' . $page->title . '</p>';
         }
 
@@ -151,5 +162,18 @@ class FormatModelLabel
         }
 
         return $statement->fetch(\PDO::FETCH_OBJ);
+    }
+
+    /**
+     * Translate the identifier.
+     *
+     * @param string $identifier The translation identifier.
+     * @param string $domain     The translation domain.
+     *
+     * @return string
+     */
+    private function trans($identifier, $domain = 'default')
+    {
+        return $this->translator->trans($identifier, [], 'contao_' . $domain);
     }
 }
