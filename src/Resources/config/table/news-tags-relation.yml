@@ -1,0 +1,34 @@
+services:
+    cb.table_news_tags_relation.permission:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation\Permission
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@request_stack"
+            - "@session"
+            - "@=service('contao.framework').getAdapter('Contao\\\\StringUtil')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Input')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Controller')"
+            - "@=service('contao.framework').getAdapter('Contao\\\\Image')"
+            - "@security.csrf.token_manager"
+            - "%contao.csrf_token_name%"
+
+    cb.table_news_tags_relation.archives_options:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation\ArchivesOptions
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@request_stack"
+            - "@database_connection"
+
+    cb.table_news_tags_relation.news_options:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation\NewsOptions
+        public: true
+        arguments:
+            - "@database_connection"
+
+    cb.table_news_tags_relation.tag_options:
+        class: BlackForest\Contao\News\Tags\EventListener\Table\NewsTagsRelation\TagOptions
+        public: true
+        arguments:
+            - "@database_connection"
