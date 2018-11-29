@@ -22,7 +22,11 @@
  */
 
 Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-    ->addField(['newsTagsFilter'], 'config_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+    ->addField(
+        ['newsTagsFilter, newsTagsPreFilter'],
+        'config_legend',
+        Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND
+    )
     ->applyToPalette('newslist', 'tl_module');
 
 Contao\CoreBundle\DataContainer\PaletteManipulator::create()
@@ -39,8 +43,17 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['newsTagsFilter'] = [
     'filter'    => true,
     'flag'      => 1,
     'inputType' => 'checkbox',
-    'eval'      => ['doNotCopy' => true, 'tl_class' => 'w50 clr m12'],
+    'eval'      => ['doNotCopy' => true, 'tl_class' => 'w50 clr'],
     'sql'       => "char(1) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['newsTagsPreFilter'] = [
+    'label'            => &$GLOBALS['TL_LANG']['tl_module']['newsTagsPreFilter'],
+    'exclude'          => true,
+    'inputType'        => 'select',
+    'options_callback' => ['cb.table_module.pre_filter_options', 'handleOptions'],
+    'eval'             => ['includeBlankOption' => true, 'tl_class' => 'w50 clr'],
+    'sql'              => 'text NULL'
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['newsTagsShow'] = [

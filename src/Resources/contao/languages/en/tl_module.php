@@ -21,5 +21,6 @@
  * Fields.
  */
 
-$GLOBALS['TL_LANG']['tl_module']['newsTagsFilter'] = ['Tags filter', 'Activate the tags filter. If this active you can filter the news by tags.'];
-$GLOBALS['TL_LANG']['tl_module']['newsTagsShow']   = ['Show tags', 'Here can you activate for display the tags by the detail page.'];
+$GLOBALS['TL_LANG']['tl_module']['newsTagsFilter']    = ['Tags filter', 'Activate the tags filter. If this active you can filter the news by tags.'];
+$GLOBALS['TL_LANG']['tl_module']['newsTagsPreFilter'] = ['Pre filter Tags', 'Here can select with which tags the list is pre filtered.'];
+$GLOBALS['TL_LANG']['tl_module']['newsTagsShow']      = ['Show tags', 'Here can you activate for display the tags by the detail page.'];

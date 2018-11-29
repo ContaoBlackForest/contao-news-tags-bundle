@@ -22,6 +22,7 @@ namespace BlackForest\Contao\News\Tags\EventListener\Module\ListView;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\Input;
+use Contao\ModuleNewsList;
 use Contao\NewsModel;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -102,18 +103,22 @@ class ItemFetcher
     /**
      * Count the news items.
      *
-     * @param array  $archives The news archives.
-     * @param string $featured The news archive filter news by featured.
+     * @param array          $archives The news archives.
+     * @param string         $featured The news archive filter news by featured.
+     * @param ModuleNewsList $list     The news list.
      *
      * @return int
      */
-    public function countItems(array $archives, $featured)
+    public function countItems(array $archives, $featured, ModuleNewsList $list)
     {
-        if (!$this->input->get('filterTag')) {
+        $preFilter = '';
+        if (!$this->input->get('filterTag') && !$list->newsTagsPreFilter) {
             return $this->repository->countPublishedByPids($archives, $featured);
+        } elseif (!$this->input->get('filterTag')) {
+            $preFilter = $list->newsTagsPreFilter;
         }
 
-        $matchedNewsIds = $this->matchNewsIds($archives, $featured);
+        $matchedNewsIds = $this->matchNewsIds($archives, $featured, null, null, $preFilter);
         if (!\count($matchedNewsIds)) {
             $this->redirectWithoutFilter();
         }
@@ -128,20 +133,24 @@ class ItemFetcher
     /**
      * Fetch the news items.
      *
-     * @param array   $archives The news archives.
-     * @param string  $featured The news archive filter news by featured.
-     * @param integer $limit    The limit of news.
-     * @param integer $offset   The offset for start news.
+     * @param array          $archives The news archives.
+     * @param string         $featured The news archive filter news by featured.
+     * @param integer        $limit    The limit of news.
+     * @param integer        $offset   The offset for start news.
+     * @param ModuleNewsList $list     The news list.
      *
      * @return \Contao\Model\Collection|NewsModel|NewsModel[]|null
      */
-    public function fetchItems(array $archives, $featured, $limit = 0, $offset = 0)
+    public function fetchItems(array $archives, $featured, $limit, $offset, ModuleNewsList $list)
     {
-        if (!$this->input->get('filterTag')) {
+        $preFilter = '';
+        if (!$this->input->get('filterTag') && !$list->newsTagsPreFilter) {
             return $this->repository->findPublishedByPids($archives, $featured, $limit, $offset);
+        } elseif (!$this->input->get('filterTag')) {
+            $preFilter = $list->newsTagsPreFilter;
         }
 
-        $matchedNewsIds = $this->matchNewsIds($archives, $featured, $limit, $offset);
+        $matchedNewsIds = $this->matchNewsIds($archives, $featured, $limit, $offset, $preFilter);
         if (!\count($matchedNewsIds)) {
             $this->redirectWithoutFilter();
         }
@@ -156,14 +165,15 @@ class ItemFetcher
     /**
      * Match the news identifier.
      *
-     * @param array  $archives The archive list.
-     * @param string $featured Determine for feature news.
-     * @param null   $limit    The limit of news.
-     * @param null   $offset   The start offset.
+     * @param array  $archives      The archive list.
+     * @param string $featured      Determine for feature news.
+     * @param null   $limit         The limit of news.
+     * @param null   $offset        The start offset.
+     * @param string $tagIdentifier The tag identifier so such for pre filter.
      *
      * @return array
      */
-    private function matchNewsIds(array $archives, $featured, $limit = null, $offset = null)
+    private function matchNewsIds(array $archives, $featured, $limit = null, $offset = null, $tagIdentifier = '')
     {
         $findFeatured = ('featured' === $featured) ? true : (('unfeatured' === $featured) ? false : null);
 
@@ -190,13 +200,19 @@ class ItemFetcher
                     $queryBuilder->expr()->gt('n.stop', ':startTime')
                 )
             )
-            ->andWhere($queryBuilder->expr()->eq('t.alias', ':tagAlias'))
+            ->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq('t.alias', ':tagAlias'),
+                    $queryBuilder->expr()->eq('t.id', ':tagIdentifier')
+                )
+            )
             ->setParameter(':archives', \array_map('\intval', $archives), Connection::PARAM_STR_ARRAY)
             ->setParameter(':published', 1)
             ->setParameter(':empty', '')
             ->setParameter(':startTime', $time->getTimestamp())
             ->setParameter(':stopTime', ($time->getTimestamp() + 60))
             ->setParameter(':tagAlias', $this->input->get('filterTag'))
+            ->setParameter(':tagIdentifier', $tagIdentifier)
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
